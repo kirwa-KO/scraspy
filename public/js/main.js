@@ -29,3 +29,15 @@ $(function () {
 		$(this).addClass('active').siblings().removeClass('active');;
 	})
 })
+
+
+$(window).on('load', function () {
+    $("body").css("overflow", "auto");
+    $(".onload").fadeOut(1000, function (){
+        $(this).fadeOut(1000, function ()
+        {
+            $(this).remove();
+			$("iframe").fadeIn(1000, function (){})
+        })
+    })
+});
