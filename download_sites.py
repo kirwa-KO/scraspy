@@ -12,13 +12,13 @@ def zipdir(path, ziph):
 	for root, dirs, files in os.walk(path):
 		for file in files:
 			if file.split('.')[-1] == "html":
-				html_files.append(os.path.join(root, file))
+				html_files.append(os.path.join(root, file).split('/')[-1])
 			elif file.split('.')[-1] == "css":
-				css_files.append(os.path.join(root, file))
+				css_files.append(os.path.join(root, file).split('/')[-1])
 			elif file.split('.')[-1] == "js":
-				js_files.append(os.path.join(root, file))
+				js_files.append(os.path.join(root, file).split('/')[-1])
 			else:
-				assets_files.append(os.path.join(root, file))
+				assets_files.append(os.path.join(root, file).split('/')[-1])
 			ziph.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), os.path.join(path, '..')))
 	return html_files, css_files, js_files, assets_files
 
@@ -28,19 +28,19 @@ def zipdir(path, ziph):
 def download_all_pages(website_url):
 	domain_name = urlparse(website_url).netloc
 	os.system("wget -mkEpnp --html-extension --restrict-file-names=windows " + website_url)
-	zipf = zipfile.ZipFile("/tmp/" + domain_name + ".zip", "w", zipfile.ZIP_DEFLATED)
+	zipf = zipfile.ZipFile(domain_name + ".zip", "w", zipfile.ZIP_DEFLATED)
 	html_files, css_files, js_files, assets_files = zipdir(domain_name + '/', zipf)
 	zipf.close()
 	shutil.rmtree(domain_name)
-	return html_files, css_files, js_files, assets_files
+	return html_files, css_files, js_files, assets_files, domain_name + ".zip"
 
 # download just the sepefied page
 def download_specifique_page(website_url):
 	domain_name = urlparse(website_url).netloc
 	os.system("wget -rpk --html-extension --restrict-file-names=windows " + website_url)
-	zipf = zipfile.ZipFile("/tmp/" + domain_name + ".zip", "w", zipfile.ZIP_DEFLATED)
+	zipf = zipfile.ZipFile(domain_name + ".zip", "w", zipfile.ZIP_DEFLATED)
 	html_files, css_files, js_files, assets_files = zipdir(domain_name + '/', zipf)
 	zipf.close()
 	shutil.rmtree(domain_name)
-	return html_files, css_files, js_files, assets_files
+	return html_files, css_files, js_files, assets_files, domain_name + ".zip"
 

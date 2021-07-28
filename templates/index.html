@@ -6,7 +6,7 @@
 		</a>
 		<div class="ml-auto">
 			<ul class="navbar-nav">
-				<li class="nav-item active">
+				<!-- <li class="nav-item active">
 					<a class="nav-link" href="#">Website</span></a>
 				</li>
 				<li class="nav-item">
@@ -14,28 +14,37 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Facebook</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">About us</span></a>
+				</li> -->
+				<li class="nav-item active">
+					<a class="nav-link" href="https://www.kirwako.com">About us</span></a>
 				</li>
 			</ul>
 		</div>
 	</nav>
 
-	<div class="pt-5 mt-5 onload" style="display: none;">
+	<div class="pt-5 mt-5 loading">
 		<img src="{{ url_for('static', filename='assets/loadingLogo.svg') }}" alt="loading scraspy" class="img-fluid d-block m-auto">
 		<div class="loading-container m-auto">
 			<div class="loading-scroll">
 			</div>
 		</div>
 	</div>
+	<div class="alert alert-danger error-popup">
+		Please enter the link of website to download
+	</div>
 
 	<div class="text-center download-section">
 		<p class="header">website Download</p>
 		<p>download or copy websites that are currently online</p>
 		<form action="/fetched" method="POST">
-			<input type="text" placeholder="Paste website link here..." name="website">
+			<input type="text" placeholder="Paste website link here..." name="website" id="website-input">
 			<button class="btn" id="btn-download" type="submit">Download</button>
+			<div>
+				<input type="radio" id="all-pages" name="pages" checked value="all_pages">
+				<label for="all-pages" class="mr-5">Download All Pages</label>
+				<input type="radio" id="first-page" name="pages" class="mt-4" value="first_pages">
+				<label for="first-page">Download Just First Page</label>
+			</div>
 		</form>
 	</div>
 	<div class="informations-section container text-center">
@@ -62,7 +71,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="buy-coffe-section m-auto text-center mb-5 ">
+	<div class="buy-coffe-section m-auto text-center mb-5">
 		<p>This website costs us time and money to run and maintain. We are very happy about every coffee!</p>
 		<a href="https://www.buymeacoffee.com/imranbaali"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=imranbaali&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
 	</div>
