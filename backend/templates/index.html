@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-white main_navbar">
+        <a class="navbar-brand" href="/">
+            <img src="{{ url_for('static', filename='assets/logo.svg') }}" alt="Scraspy logo" class="logo">
+        </a>
+        <div class="ml-auto">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Website</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Youtube</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Facebook</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About us</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+	<div class="text-center download-section">
+		<p class="header">website Download</p>
+		<p>download or copy websites that are currently online</p>
+		<form action="/fetched" method="POST">
+			<input type="text" placeholder="Paste website link here...">
+			<button class="btn">Download</button>
+		</form>
+	</div>
+	<div class="informations-section container text-center">
+		<div class="row">
+			<div class="col-3">
+				<img src="{{ url_for('static', filename='assets/htmlCircleIcon.svg') }}" alt="html logo">
+				<p>Get Html Files</p>
+				<p>The scraspy takes each HTML file and downloads and clones it to your local hard drive.</p>
+			</div>
+			<div class="col-3">
+				<p>Get Styling / Js files</p>
+				<p>CSS and JavaScript files will be downloaded under a simple folder structure and referenced correctly in the HTML files.</p>
+				<img src="{{ url_for('static', filename='assets/cssCircleIcon.svg') }}" alt="html logo">
+			</div>
+			<div class="col-3">
+				<img src="{{ url_for('static', filename='assets/imageCircleIcon.svg') }}" alt="html logo">
+				<p>Get all images</p>
+				<p>like css and js files all images will downloaded and referenced locally in your html files.</p>
+			</div>
+			<div class="col-3">
+				<p>Link Conversion</p>
+				<p>Scraspy convert all the links in the HTML files so that they work locally, off-line, instead of pointing to an online website.</p>
+				<img src="{{ url_for('static', filename='assets/linkCircleIcon.svg') }}" alt="html logo">
+			</div>
+		</div>
+	</div>
+	<div class="buy-coffe-section m-auto text-center mb-5">
+		<p>This website costs us time and money to run and maintain. We are very happy about every coffee!</p>
+		<a href="https://www.buymeacoffee.com/imranbaali"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=imranbaali&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
+	</div>
+{% endblock %}
