@@ -1,6 +1,13 @@
 
 $(function () {
 	'use strict';
+
+	$("#btn-download").on('click', function() {
+		$(".download-section").fadeOut(1000, function (e){
+			e.preventDefault();
+		});
+	})
+
 	$("#list-files").on("click", function () {
 		$(".get-files-section").removeClass("d-none");
 	});
@@ -31,13 +38,13 @@ $(function () {
 })
 
 
-$(window).on('load', function () {
-    $("body").css("overflow", "auto");
-    $(".onload").fadeOut(1000, function (){
-        $(this).fadeOut(1000, function ()
-        {
-            $(this).remove();
-			$("iframe").fadeIn(1000, function (){})
-        })
-    })
-});
+// $(window).on('load', function () {
+//     $("body").css("overflow", "auto");
+//     $(".onload").fadeOut(1000, function (){
+//         $(this).fadeOut(1000, function ()
+//         {
+//             $(this).remove();
+// 			$("iframe").fadeIn(1000, function (){})
+//         })
+//     })
+// });
