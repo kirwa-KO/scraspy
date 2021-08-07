@@ -1,16 +1,28 @@
-from flask				import Flask, render_template, request, after_this_request
+from flask				import Flask, render_template, request, after_this_request, jsonify
 from flask.helpers		import send_file
 from download_sites		import download_all_pages, download_specifique_page
+from threading			import Thread
+from time				import sleep
 
+app = Flask(__name__)
+finished = False
 
-scraspy = Flask(__name__)
-
-@scraspy.route('/')
+@app.route('/')
 def home_page():
 	return render_template('index.html', custom_css="index")
 
-@scraspy.route('/fetched', methods=['POST', 'GET'])
+def testoo(website):
+	global finished
+	sleep(5)
+	print("#" * 80)
+	print(website)
+	print("#" * 80)
+	finished = True
+
+@app.route('/fetched', methods=['POST', 'GET'])
 def fetched_page():
+	global finished
+	finished = False
 	if request.method == 'GET':
 		html_files = ['index.html', 'contact.html', 'about.html']
 		css_files = ['all.min.css', 'css/about.css', 'css/main.css', 'css/contact.css']
@@ -28,16 +40,23 @@ def fetched_page():
 
 	elif request.method == 'POST':
 		website_url = request.form['website']
-		if request.form['pages'] == "all_pages":
-			html_files, css_files, js_files, assets_files, zip_file_name = download_all_pages(website_url)
-		else:
-			html_files, css_files, js_files, assets_files, zip_file_name = download_specifique_page(website_url)
+		# if request.form['pages'] == "all_pages":
+		# 	html_files, css_files, js_files, assets_files, zip_file_name = download_all_pages(website_url)
+		# else:
+		# 	html_files, css_files, js_files, assets_files, zip_file_name = download_specifique_page(website_url)
+		
+		# down = Thread(target=download_all_pages, args=(website_url,), daemon=True)
+		# down.start()
+		down = Thread(target=testoo, args=(website_url,), daemon=True)
+		down.start()
+		html_files, css_files, js_files, assets_files, zip_file_name = [], [], [], [], []
+
 
 		if "http://" not in website_url and "https://" not in website_url:
 			website_url = "https://" + website_url
 
-		return render_template('fetched.html',
-							custom_css="fetched",
+		return render_template('loading.html',
+							custom_css="loading",
 							website=website_url,
 							html_files=html_files,
 							css_files=css_files,
@@ -45,7 +64,7 @@ def fetched_page():
 							assets_files=assets_files,
 							zip_file_name=zip_file_name)
 
-@scraspy.route('/download/<filename>')
+@app.route('/download/<filename>')
 def download_zip_file(filename):
 	import os
 	# path = filename
@@ -58,9 +77,21 @@ def download_zip_file(filename):
 			os.remove(filename)
 			file_handle.close()
 		except Exception as error:
-			scraspy.logger.error("Error removing or closing downloaded file handle", error)
+			app.logger.error("Error removing or closing downloaded file handle", error)
 		return response
 	return send_file(filename, as_attachment=True)
 
+@app.route('/result')
+def result():
+	""" Just give back the result of your heavy work """
+	return 'Done'
+
+
+@app.route('/status')
+def thread_status():
+	""" Return the status of the worker thread """
+	return jsonify(dict(status=('finished' if finished else 'running')))
+
+
 if __name__ == "__main__":
-	scraspy.run(debug=True)
+	app.run(debug=True)
